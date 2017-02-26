@@ -52,13 +52,22 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="ImgShareDemoContext.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201702211539572_initialUserTable.cs" />
     <Compile Include="Migrations\201702211539572_initialUserTable.Designer.cs">
       <DependentUpon>201702211539572_initialUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702252321361_LinkedInLogInTables.cs" />
+    <Compile Include="Migrations\201702252321361_LinkedInLogInTables.Designer.cs">
+      <DependentUpon>201702252321361_LinkedInLogInTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ILinkedInUserRepository.cs" />
+    <Compile Include="Repositories\Concrete\LinkedInUserRepository.cs" />
     <Compile Include="Repositories\Concrete\UserRepository.cs" />
+    <Compile Include="Repositories\Concrete\UserSignOnRepository.cs" />
+    <Compile Include="Repositories\IUserSignOnRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
@@ -69,6 +78,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702211539572_initialUserTable.resx">
       <DependentUpon>201702211539572_initialUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702252321361_LinkedInLogInTables.resx">
+      <DependentUpon>201702252321361_LinkedInLogInTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

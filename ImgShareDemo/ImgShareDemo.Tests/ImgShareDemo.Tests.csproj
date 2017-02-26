@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AppConfigTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -93,6 +96,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImgShareDemo.BLL\ImgShareDemo.BLL.csproj">
+      <Project>{426d0c39-4e4a-4952-9bcd-a01a42ebebc1}</Project>
+      <Name>ImgShareDemo.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImgShareDemo.BO\ImgShareDemo.BO.csproj">
+      <Project>{1f36c5c7-f114-4808-be97-3cb869ec231f}</Project>
+      <Name>ImgShareDemo.BO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImgShareDemo.DAL\ImgShareDemo.DAL.csproj">
+      <Project>{bfcfec56-d72a-45ea-beb7-78f27f659145}</Project>
+      <Name>ImgShareDemo.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImgShareDemo\ImgShareDemo.Web.csproj">
       <Project>{F322D953-30E9-4531-8D86-5BE38BA640E4}</Project>
       <Name>ImgShareDemo.Web</Name>

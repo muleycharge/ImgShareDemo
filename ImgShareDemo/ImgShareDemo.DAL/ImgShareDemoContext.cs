@@ -14,6 +14,8 @@ namespace ImgShareDemo.DAL
         public ImgShareDemoContext() : base("ImgShareDemoContext") { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserSignOn> UserSignOn { get; set; }
+        public DbSet<LinkedInUser> LinkedInUser { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
