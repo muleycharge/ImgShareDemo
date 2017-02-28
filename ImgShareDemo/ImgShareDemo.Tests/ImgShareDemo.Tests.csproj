@@ -86,11 +86,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\AppConfigTest.cs" />
+    <Compile Include="BLL\AssetServiceTest.cs" />
+    <Compile Include="Mock\DAL\AllMockRepositories.cs" />
+    <Compile Include="Mock\DAL\MockGenericRepository.cs" />
+    <Compile Include="Mock\DAL\MockUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Data\TestImage.png" />
+    <Content Include="Data\TestImage2.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

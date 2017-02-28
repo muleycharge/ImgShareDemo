@@ -50,12 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTransfer\ApiDataResponse.cs" />
-    <Compile Include="DataTransfer\LinkedInErrorResponse.cs" />
-    <Compile Include="DataTransfer\LinkedInPersonResponse.cs" />
-    <Compile Include="DataTransfer\LinkedInTokenResponse.cs" />
+    <Compile Include="DataTransfer\ApiResponse.cs" />
+    <Compile Include="DataTransfer\IncomingApiDataResponse.cs" />
+    <Compile Include="DataTransfer\AssetDto.cs" />
+    <Compile Include="DataTransfer\PagedResponse.cs" />
+    <Compile Include="LinkedInResponse\LinkedInErrorResponse.cs" />
+    <Compile Include="LinkedInResponse\LinkedInPersonResponse.cs" />
+    <Compile Include="LinkedInResponse\LinkedInTokenResponse.cs" />
+    <Compile Include="Entities\Asset.cs" />
+    <Compile Include="Entities\AssetTag.cs" />
     <Compile Include="Entities\LinkedInUser.cs" />
-    <Compile Include="Entities\UserSignOn.cs" />
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="ITrackable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

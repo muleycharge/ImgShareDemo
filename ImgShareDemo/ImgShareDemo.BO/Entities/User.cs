@@ -11,6 +11,11 @@
         [Key]
         public int Id { get; set; }
 
+        [Column("USR_Username")]
+        [MaxLength(64)]
+        [Index("idxUniqueUsername", IsUnique = true)]
+        public string Username { get; set; }
+
         [Column("USR_FirstName")]
         public string FirstName { get; set; }
 

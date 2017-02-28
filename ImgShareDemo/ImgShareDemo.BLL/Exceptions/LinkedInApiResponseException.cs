@@ -1,13 +1,11 @@
-﻿using ImgShareDemo.BO.DataTransfer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-namespace ImgShareDemo.BLL.Exceptions
+﻿namespace ImgShareDemo.BLL.Exceptions
 {
+    using BO.LinkedInResponse;
+    using ImgShareDemo.BO.DataTransfer;
+    using Newtonsoft.Json;
+    using System;
+    using System.Net.Http;
+
     public class LinkedInApiResponseException : Exception
     {
         public HttpResponseMessage Response { get; private set; }

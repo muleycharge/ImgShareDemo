@@ -16,16 +16,16 @@ namespace ImgShareDemo.DAL
         private ImgShareDemoContext _context;
 
         private Lazy<IUserRepository> _userRepository;
-        private Lazy<IUserSignOnRepository> _userSignOnRepository;
         private Lazy<ILinkedInUserRepository> _linkedInUserRepository;
+        private Lazy<IAssetRepository> _assetRepository;
+        private Lazy<ITagRepository> _tagRepository;
         #endregion
 
         #region Properties
         public IUserRepository UserRepository => _userRepository.Value;
-
-        public IUserSignOnRepository UserSignOnRepository => _userSignOnRepository.Value;
-
         public ILinkedInUserRepository LinkedInUserRepository => _linkedInUserRepository.Value;
+        public IAssetRepository AssetRepository => _assetRepository.Value;
+        public ITagRepository TagRepository => _tagRepository.Value;
         #endregion
 
         #region Constructors
@@ -40,8 +40,9 @@ namespace ImgShareDemo.DAL
         private void SetRepositories()
         {
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(_context));
-            _userSignOnRepository = new Lazy<IUserSignOnRepository>(() => new UserSignOnRepository(_context));
             _linkedInUserRepository = new Lazy<ILinkedInUserRepository>(() => new LinkedInUserRepository(_context));
+            _assetRepository = new Lazy<IAssetRepository>(() => new AssetRepository(_context));
+            _tagRepository = new Lazy<ITagRepository>(() => new TagRepository(_context));
         }
 
         public int SaveChanges()

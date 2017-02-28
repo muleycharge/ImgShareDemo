@@ -1,7 +1,7 @@
-﻿using ImgShareDemo.BO.Entities;
-
-namespace ImgShareDemo.DAL.Repositories
+﻿namespace ImgShareDemo.DAL.Repositories
 {
+    using ImgShareDemo.BO.Entities;
+
     public interface ILinkedInUserRepository : IGenericRepository<LinkedInUser>
     {
     }

@@ -1,36 +1,40 @@
 ﻿namespace ImgShareDemo.Controllers
 {
-    using BLL;
-    using BLL.Exceptions;
-    using BLL.Static;
-    using BO.Entities;
+    using ImgShareDemo.BLL;
+    using ImgShareDemo.BLL.Exceptions;
+    using ImgShareDemo.BLL.Static;
+    using ImgShareDemo.BO.Entities;
+    using ImgShareDemo.BO.LinkedInResponse;
     using ImgShareDemo.BO.DataTransfer;
-    using ImgShareDemo.Models;
     using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.IdentityModel.Tokens;
     using Microsoft.Owin;
     using Microsoft.Owin.Security;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Net.Http;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
+    using System.Runtime.Caching;
+    using System.Collections.Specialized;
 
     [Authorize]
     public class AccountController : Controller
     {
         private UserService _userService;
+        // Use simple caching since this is a demo and doesn't need to scale super large.
+        private static Lazy<MemoryCache> _stateCache = new Lazy<MemoryCache>(() => 
+        {
+            var config = new NameValueCollection();
+            // Set really low since this is a demo
+            config.Add("CacheMemoryLimitMegabytes", "2");
+            return new MemoryCache("LoginStateCache", config);
+        });
 
         private IAuthenticationManager AuthenticationManager
         {
-            get
-            {
+            get { 
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
@@ -64,9 +68,14 @@
         [AllowAnonymous]
         public async Task<ActionResult> Login(string returnUrl)
         {
-            UserSignOn uso = await _userService.CreateSignOnState(returnUrl).ConfigureAwait(false);
+            string state = Guid.NewGuid().ToString("N");
+            _stateCache.Value.Add(new CacheItem(state, returnUrl), 
+                new CacheItemPolicy
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(10)
+                });
             string loginUrl = Url.Encode(LocalRedirectUrl);
-            string linkedInUrl = LinkedInApiService.GetSignInUrl(uso.State, loginUrl);
+            string linkedInUrl = LinkedInApiService.GetSignInUrl(state, loginUrl);
             return Redirect(linkedInUrl);
         }
 
@@ -85,33 +94,29 @@
                 Trace.TraceWarning($"Login failed: Improper state or code provided. state: {state}, code: {code}");
                 return RedirectToAction("ExternalLoginFailure");
             }
-
-            UserSignOn uso = await _userService.GetSignOnState(state).ConfigureAwait(false);
-            if(uso == null)
+            string returnUrl = _stateCache.Value.Get(state) as string;
+            if(returnUrl == null)
             {
                 Trace.TraceWarning($"Login failed: Failed to retreive login state from database. state: {state}, code: {code}");
                 return RedirectToAction("ExternalLoginFailure");
             }
 
-            if(uso.State != state)
-            {
-                Trace.TraceWarning($"Login failed: Failed to validate CSFR state. state: {state}, code: {code}");
-                return RedirectToAction("ExternalLoginFailure");
-            }
             try
             {
-                ApiDataResponse<LinkedInTokenResponse> tokenResponse = await LinkedInApiService.GetToken(LocalRedirectUrl, code).ConfigureAwait(false);
+                IncomingApiDataResponse<LinkedInTokenResponse> tokenResponse = await LinkedInApiService.GetToken(LocalRedirectUrl, code).ConfigureAwait(false);
                 LinkedInUser user = await _userService.InitializeUserFromLinkedIn(tokenResponse.Data).ConfigureAwait(false);
                 List<Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name, $"{user.User.FirstName} {user.User.LastName}"),
                     new Claim(ClaimTypes.Email, user.User.Email),
-                    new Claim(ClaimTypes.NameIdentifier, user.LinkedInId)
+                    new Claim(ClaimTypes.NameIdentifier, user.LinkedInId),
+                    new Claim(AppConstants.CustomClaims.UserImageUrl, user.ProfileImageUrl),
+                    new Claim(AppConstants.CustomClaims.IsdUserId, user.Id.ToString())
                 };                
                 ClaimsIdentity identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                 IOwinContext authContext = Request.GetOwinContext();
                 authContext.Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.UtcNow.AddSeconds(tokenResponse.Data.expires_in) }, identity);
-                return RedirectToLocal(uso.RedirectUri);
+                return RedirectToLocal(returnUrl);
             }
             catch(LinkedInApiResponseException ex)
             {

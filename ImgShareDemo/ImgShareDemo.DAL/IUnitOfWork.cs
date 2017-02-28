@@ -1,15 +1,14 @@
-﻿using ImgShareDemo.DAL.Repositories;
-using System.Threading.Tasks;
-
-namespace ImgShareDemo.DAL
+﻿namespace ImgShareDemo.DAL
 {
+    using ImgShareDemo.DAL.Repositories;
+    using System.Threading.Tasks;
+
     public interface IUnitOfWork
     {
         IUserRepository UserRepository { get; }
-
-        IUserSignOnRepository UserSignOnRepository { get; }
-
         ILinkedInUserRepository LinkedInUserRepository { get; }
+        IAssetRepository AssetRepository { get; }
+        ITagRepository TagRepository { get; }
         
         int SaveChanges();
 

@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ImgShareDemo.BLL.Static;
-using System.Configuration;
-using System.Collections.Specialized;
-
-namespace ImgShareDemo.Tests.BLL
+﻿namespace ImgShareDemo.Tests.BLL
 {
+    using ImgShareDemo.BLL.Static;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AppConfigTest
     {

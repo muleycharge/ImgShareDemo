@@ -1,14 +1,13 @@
-﻿using ImgShareDemo.BO.DataTransfer;
-using ImgShareDemo.BO.Entities;
-using ImgShareDemo.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ImgShareDemo.BLL
+﻿namespace ImgShareDemo.BLL
 {
+    using BO.LinkedInResponse;
+    using ImgShareDemo.BO.DataTransfer;
+    using ImgShareDemo.BO.Entities;
+    using ImgShareDemo.DAL;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class UserService : IDisposable
     {
         private IUnitOfWork _uow;
@@ -25,7 +24,7 @@ namespace ImgShareDemo.BLL
         public async Task<LinkedInUser> InitializeUserFromLinkedIn(LinkedInTokenResponse token)
         {
             LinkedInApiService api = new LinkedInApiService(token.access_token);
-            ApiDataResponse<LinkedInPersonResponse> personResponse = await api.GetPerson(token.access_token).ConfigureAwait(false);
+            IncomingApiDataResponse<LinkedInPersonResponse> personResponse = await api.GetPerson(token.access_token).ConfigureAwait(false);
             LinkedInUser linkedInUser = (await _uow.LinkedInUserRepository.GetAsync(lu => lu.LinkedInId == personResponse.Data.id).ConfigureAwait(false)).FirstOrDefault();
 
             if(linkedInUser == null)
@@ -49,25 +48,21 @@ namespace ImgShareDemo.BLL
             linkedInUser.User.FirstName = personResponse.Data.firstName;
             linkedInUser.User.LastName = personResponse.Data.lastname;
             linkedInUser.User.ImageUrl = personResponse.Data.pictureUrl;
+            if(String.IsNullOrEmpty(linkedInUser.User.Username)
+                && !String.IsNullOrEmpty(personResponse.Data.emailAddress)
+                && (await _uow.UserRepository.GetAsync(u => u.Username == personResponse.Data.emailAddress).ConfigureAwait(false)) == null)
+            {
+                linkedInUser.User.Username = personResponse.Data.emailAddress;
+            }
+            else
+            {
+                linkedInUser.User.Username = linkedInUser.LinkedInId;
+            }
 
             await _uow.SaveChangesAsync().ConfigureAwait(false);
 
             return linkedInUser;
         }
-
-        public async Task<UserSignOn> CreateSignOnState(string returnUrl)
-        {
-            UserSignOn uso = _uow.UserSignOnRepository.GenerateNew(returnUrl);
-            await _uow.SaveChangesAsync().ConfigureAwait(false);
-            return uso;
-        }
-
-        public async Task<UserSignOn> GetSignOnState(string state)
-        {
-            UserSignOn uso = (await _uow.UserSignOnRepository.GetAsync(u => u.State == state).ConfigureAwait(false)).FirstOrDefault();
-            return uso;
-        }
-
         public void Dispose() => _uow.Dispose();
     }
 }

@@ -2,7 +2,7 @@
 {
     using System.Net.Http;
 
-    public class ApiDataResponse<T>
+    public class IncomingApiDataResponse<T>
     {
         public HttpResponseMessage Response { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace ImgShareDemo.BO.DataTransfer
+﻿namespace ImgShareDemo.BO.LinkedInResponse
 {
     public class LinkedInTokenResponse
     {
