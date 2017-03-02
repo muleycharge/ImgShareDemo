@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    [Authorize]
     public class AssetController : BaseApiController
     {
         private AssetService _assetService;
@@ -18,7 +19,15 @@
         {
             get
             {
-                return this.User.Identity.GetUserId();
+                int? userId = User.Identity.GetUserId();
+                if (userId.HasValue)
+                {
+                    return userId.Value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("User context is not set. Unable to get user ID.");
+                }
             }
         }
         public AssetController()
@@ -32,7 +41,8 @@
         }
 
         // GET: api/Asset
-        public async Task<ApiResponse<PagedResponse<AssetDto>>> Get(string search = "" , int? take = null, int? offset = null )
+        [HttpGet]
+        public async Task<ApiResponse<PagedResponse<AssetDto>>> Get(string search = "", int? take = null, int? offset = null)
         {
             PagedResponse<AssetDto> assets = await _assetService.GetUserAssets(UserId, search, take ?? 100, offset ?? 0).ConfigureAwait(false);
 
@@ -43,6 +53,7 @@
         }
 
         // GET: api/Asset/5
+        [HttpGet]
         public async Task<ApiResponse<AssetDto>> Get(int id)
         {
             return new ApiResponse<AssetDto>
@@ -52,32 +63,41 @@
         }
 
         // POST: api/Asset
-        public async Task Post([FromBody]AssetDto value)
+        [HttpPost]
+        public async Task<ApiResponse<AssetDto>> Post([FromBody]AssetDto value)
         {
             value.Id = null; // Make sure that this is a insert operation.
-            await _assetService.AddUpdateAsset(value).ConfigureAwait(false);
+            AssetDto asset = await _assetService.AddUpdateAsset(UserId, value).ConfigureAwait(false);
+            return new ApiResponse<AssetDto>
+            {
+                Data = asset
+            };
         }
 
         // PUT: api/Asset/5
-        public async Task Put(int id, [FromBody]AssetDto value)
+        [HttpPut]
+        public async Task Put([FromBody]AssetDto value)
         {
             if (!value.Id.HasValue)
             {
                 throw new InvalidOperationException("Asset Id is null");
             }
-            await _assetService.AddUpdateAsset(value).ConfigureAwait(false);
+            await _assetService.AddUpdateAsset(UserId, value).ConfigureAwait(false);
         }
 
         // DELETE: api/Asset/5
+        [HttpDelete]
         public async Task Delete(int id)
         {
             await _assetService.DeleteAssetImage(id, UserId);
         }
 
+        [Route("api/Asset/Upload/{id}")]
+        [HttpPost]
         public async Task<ApiResponse<AssetDto>> Upload(int id)
         {
             IEnumerable<string> values;
-            if (!Request.Headers.TryGetValues("Content-Type", out values) || !values.Any())
+            if (!Request.Content.Headers.TryGetValues("Content-Type", out values) || !values.Any())
             {
                 throw new InvalidOperationException("Content-Type header is required");
             }

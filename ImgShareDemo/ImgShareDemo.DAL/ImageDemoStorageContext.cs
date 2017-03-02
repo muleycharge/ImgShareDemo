@@ -86,7 +86,7 @@
         {
             return !String.IsNullOrEmpty(blobUrl)
                 && blobUrl.StartsWith(ImageBlobStorageBaseUrL())
-                && Regex.IsMatch(blobUrl, $"{userId}/{assetId}.\\w+$");
+                && Regex.IsMatch(blobUrl, $@"{userId}/\d+.\w+$");
         }
         #endregion
 

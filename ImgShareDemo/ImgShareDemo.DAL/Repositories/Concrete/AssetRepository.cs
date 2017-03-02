@@ -15,14 +15,16 @@
         public async Task<IEnumerable<Asset>> GetUserAssets(int userId, string search, int take, int offset)
         {
             IQueryable<Asset> userAssetTags = from at in context.AssetTags
-                                               where at.Tag.User.Id == userId && at.Tag.TagValue.StartsWith(search)
+                                               where at.Tag.User.Id == userId 
+                                                && (String.IsNullOrEmpty(search) || at.Tag.TagValue.StartsWith(search))
                                                select at.Asset;
 
             IQueryable<Asset> userAssets = from a in context.Assets
-                                            where a.User.Id == userId && (a.Description.Contains(search) || a.Name.Contains(search))
+                                            where a.User.Id == userId 
+                                                && (String.IsNullOrEmpty(search) || a.Description.Contains(search) || a.Name.Contains(search))
                                             select a;
 
-            IQueryable<Asset> searchedAssets = userAssetTags.Union(userAssets).Distinct().Skip(offset).Take(take);
+            IQueryable<Asset> searchedAssets = userAssetTags.Union(userAssets).Distinct().OrderBy(a => a.Name).Skip(offset).Take(take);
 
             return await searchedAssets.ToListAsync().ConfigureAwait(false);
         }

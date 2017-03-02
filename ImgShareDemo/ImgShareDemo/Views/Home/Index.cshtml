@@ -1,9 +1,13 @@
 ﻿@{
     ViewBag.Title = "Image Library";
 }
+@section scripts
+{
+    @Scripts.Render("~/bundles/home/app")
+}
 
-<div ng-app="ISD.App">
-    <div ng-controller="ISD.Controllers.ImageLibrary">
-
+<div ng-app="ISD.App" class="body-content">
+    <div ng-controller="ISD.Controllers.ImageLibrary as imageLibraryCtrl">
+        <div image-list assets="imageLibraryCtrl.Assets"></div>
     </div>
 </div>

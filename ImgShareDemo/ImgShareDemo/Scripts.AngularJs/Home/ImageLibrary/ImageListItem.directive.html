@@ -1,0 +1,42 @@
+﻿<div class="col-md-5 no-padding lib-item" data-category="view">
+    <div class="lib-panel">
+        <div class="row box-shadow">
+            <div name="imageFile" class="col-md-6 drop-box" role="button"
+                ng-model="imageListItemCtrl.imageFile"
+                ngf-select
+                ngf-drop
+                ngf-change="imageListItemCtrl.Upload($file)"
+                ngf-drag-over-class="'dropHover'" 
+                ngf-multiple="false"
+                accept="image/*"
+                ngf-pattern="'image/*'"
+                ng-required="!imageListItemCtrl.Asset.SourceUrl"
+                ngf-max-size="10MB"
+                ngf-max-height="2000"
+                ngf-max-width="2000">
+                <div ng-if="imageListItemCtrl.imageFile">
+                    <img class="lib-img-show" ngf-src="imageListItemCtrl.imageFile">
+                </div>
+                <div ng-if="!imageListItemCtrl.imageFile">
+                    <img class="lib-img-show" ng-src="{{imageListItemCtrl.Asset.SourceUrl}}">
+                </div>
+            </div>
+            <div class="col-md-6 lib-text">
+                <div class="lib-row lib-header"
+                     contenteditable="true"
+                     ng-model-options="{ updateOn: 'default', debounce: 200 }"
+                     ng-model="imageListItemCtrl.Asset.Name"></div>
+                <div class="lib-header-seperator"></div>
+                <div class="lib-row lib-desc"
+                     contenteditable="true"
+                     ng-model-options="{ updateOn: 'default', debounce: 200 }"
+                     ng-model="imageListItemCtrl.Asset.Description"></div>
+
+                <div class="lib-row lib-action" role="toolbar">
+                    <span ng-click="imageListItemCtrl.Delete()" class="lib-delete fa fa-trash fa-2x"></span>
+                    <span ng-click="imageListItemCtrl.Share()" class="fa fa-share-alt fa-2x"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

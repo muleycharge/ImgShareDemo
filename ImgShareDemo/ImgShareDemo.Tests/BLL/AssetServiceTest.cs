@@ -43,7 +43,7 @@ namespace ImgShareDemo.Tests.BLL
         {
             _mockUow.TestUser.Username = "test@test.com";
             FileStream fs = new FileStream(@"..\..\Data\TestImage.png", FileMode.Open);
-            _testAsset = await _assetSvc.AddUpdateAsset(new AssetDto
+            _testAsset = await _assetSvc.AddUpdateAsset(_mockUow.TestUser.Id, new AssetDto
             {
                 Name = "Test Asset",
                 Description = "Test Asset",

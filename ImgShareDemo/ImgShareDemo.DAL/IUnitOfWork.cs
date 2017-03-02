@@ -5,9 +5,9 @@
 
     public interface IUnitOfWork
     {
+        IAssetRepository AssetRepository { get; }
         IUserRepository UserRepository { get; }
         ILinkedInUserRepository LinkedInUserRepository { get; }
-        IAssetRepository AssetRepository { get; }
         ITagRepository TagRepository { get; }
         
         int SaveChanges();

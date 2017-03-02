@@ -2,17 +2,23 @@
     "use strict";
 
     angular
-        .module("app")
+        .module("ISD.Controllers")
         .controller("ISD.Controllers.ImageLibrary", ImageLibrary);
 
-    ImageLibrary.$inject = ["$location"]; 
+    ImageLibrary.$inject = ["$location", "$log", "ISD.Services.AssetService"];
 
-    function ImageLibrary($location) {
+    function ImageLibrary($location, $log, assetService) {
         /* jshint validthis:true */
         var vm = this;
 
         activate();
 
-        function activate() { }
+        function activate()
+        {
+            assetService.GetAssets("", 100, 0)
+            .then(function (result) {
+                vm.Assets = result.Data.Items;
+            })
+        }
     }
 })();

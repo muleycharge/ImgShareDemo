@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('app')
-        .directive('ImageCard', ImageCard);
+        .module('ISD.Directives')
+        .directive('imageCard', ImageCard);
 
     ImageCard.$inject = ['$window'];
     

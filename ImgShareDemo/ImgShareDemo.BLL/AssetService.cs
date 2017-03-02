@@ -62,20 +62,31 @@
             return asset.ToAssetDto();
         }
 
-        public async Task<AssetDto> AddUpdateAsset(AssetDto asset)
+        public async Task<AssetDto> AddUpdateAsset(int userId, AssetDto asset)
         {
-            Asset assetData = new Asset
+            Asset toUpdate;
+            if (asset.Id.HasValue)
             {
-                Id = asset.Id ?? 0,
-                Name = asset.Name,
-                Description = asset.Description,
-                UserId = asset.UserId,
-            };
-            _uow.AssetRepository.InsertOrUpdate(assetData);
+                toUpdate = await _uow.AssetRepository.GetByIdAsync(asset.Id.Value).ConfigureAwait(false);
+                if (asset == null || toUpdate.User.Id != userId)
+                {
+                    throw new InvalidOperationException($"Invalid Asset ID. Asset ID {asset.Id} not found.");
+                }
+            }
+            else
+            {
+                toUpdate = new Asset();
+            }
+            toUpdate.Id = asset.Id ?? 0;
+            toUpdate.Name = asset.Name;
+            toUpdate.Description = asset.Description;
+            toUpdate.UserId = asset.UserId;
+
+            _uow.AssetRepository.InsertOrUpdate(toUpdate);
 
             await _uow.SaveChangesAsync();
 
-            return assetData.ToAssetDto();
+            return toUpdate.ToAssetDto();
         }
 
         public async Task<AssetDto> UpdateAssetImage(Stream stream, int userId, int assetId, string contentType)
@@ -109,6 +120,7 @@
             {
                 await _imageStorage.DeleteBlobByUrl(asset.SourceUrl).ConfigureAwait(false);
             }
+            await _uow.SaveChangesAsync();
         }
 
         public void Dispose() => _uow.Dispose();

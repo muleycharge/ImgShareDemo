@@ -21,7 +21,7 @@
             return null;
         }
 
-        public static int GetUserId(this IIdentity identity)
+        public static int? GetUserId(this IIdentity identity)
         {
             if (identity == null)
             {
@@ -31,12 +31,12 @@
             if (ci != null)
             {
                 int userId;
-                if(int.TryParse(ci.FindFirstValue(AppConstants.CustomClaims.UserImageUrl), out userId))
+                if(int.TryParse(ci.FindFirstValue(AppConstants.CustomClaims.IsdUserId), out userId))
                 {
                     return userId;
                 }
             }
-            throw new InvalidOperationException("User context is not set. Unable to get user ID.");
+            return null;
         }
 
         /// <summary>

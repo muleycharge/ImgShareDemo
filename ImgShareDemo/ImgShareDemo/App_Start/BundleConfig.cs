@@ -24,13 +24,22 @@ namespace ImgShareDemo
                 "~/Scripts/lodash.core.min.js",
                 "~/Scripts/lodash.min.js"));
 
-            bundles.Add(new Bundle("~/bundles/app").Include(
-                "~/Scripts.AngularJs/Home/App.js"
-                ));
+
+            bundles.Add(new Bundle("~/bundles/home/app").Include(
+                "~/Scripts/ng-file-upload.js",
+                "~/Scripts.AngularJs/Home/app.js",
+                "~/Scripts.AngularJs/Shared/ContentEditable.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageCard.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageLibrary.controller.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageList.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageListItem.directive.js",
+                "~/Scripts.AngularJs/Shared/Asset.service.js"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.min.css"));
         }
     }
 }
