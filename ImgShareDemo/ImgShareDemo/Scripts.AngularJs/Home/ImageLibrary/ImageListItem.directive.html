@@ -1,24 +1,31 @@
 ﻿<div class="col-md-5 no-padding lib-item" data-category="view">
     <div class="lib-panel">
-        <div class="row box-shadow">
+        <div class="row box-shadow" 
+             chip-drop 
+             chips="imageListItemCtrl.Asset.Tags"
+             currently-dragged-chip="imageListItemCtrl.imageList.draggedTag"
+             chip-added="imageListItemCtrl.ChipAdded($chip)">
             <div name="imageFile" class="col-md-6 drop-box" role="button"
-                ng-model="imageListItemCtrl.imageFile"
-                ngf-select
-                ngf-drop
-                ngf-change="imageListItemCtrl.Upload($file)"
-                ngf-drag-over-class="'dropHover'" 
-                ngf-multiple="false"
-                accept="image/*"
-                ngf-pattern="'image/*'"
-                ng-required="!imageListItemCtrl.Asset.SourceUrl"
-                ngf-max-size="10MB"
-                ngf-max-height="2000"
-                ngf-max-width="2000">
+                 ng-model="imageListItemCtrl.imageFile"
+                 ngf-select
+                 ngf-drop
+                 ngf-change="imageListItemCtrl.Upload($file)"
+                 ngf-drag-over-class="'dropHover'"
+                 ngf-multiple="false"
+                 accept="image/*"
+                 ngf-pattern="'image/*'"
+                 ng-required="!imageListItemCtrl.Asset.SourceUrl"
+                 ngf-max-size="10MB"
+                 ngf-max-height="2000"
+                 ngf-max-width="2000">
                 <div ng-if="imageListItemCtrl.imageFile">
                     <img class="lib-img-show" ngf-src="imageListItemCtrl.imageFile">
                 </div>
-                <div ng-if="!imageListItemCtrl.imageFile">
+                <div ng-if="!imageListItemCtrl.imageFile && imageListItemCtrl.Asset.SourceUrl">
                     <img class="lib-img-show" ng-src="{{imageListItemCtrl.Asset.SourceUrl}}">
+                </div>
+                <div ng-if="!imageListItemCtrl.imageFile && !imageListItemCtrl.Asset.SourceUrl">
+                    <img class="lib-img-show" src="/Content/images/default.png">
                 </div>
             </div>
             <div class="col-md-6 lib-text">
@@ -26,16 +33,39 @@
                      contenteditable="true"
                      ng-model-options="{ updateOn: 'default', debounce: 200 }"
                      ng-model="imageListItemCtrl.Asset.Name"></div>
-                <div class="lib-header-seperator"></div>
-                <div class="lib-row lib-desc"
-                     contenteditable="true"
-                     ng-model-options="{ updateOn: 'default', debounce: 200 }"
-                     ng-model="imageListItemCtrl.Asset.Description"></div>
-
-                <div class="lib-row lib-action" role="toolbar">
-                    <span ng-click="imageListItemCtrl.Delete()" class="lib-delete fa fa-trash fa-2x"></span>
-                    <span ng-click="imageListItemCtrl.Share()" class="fa fa-share-alt fa-2x"></span>
+                <div class="lib-row lib-header-seperator">
                 </div>
+                <div class="lib-row lib-desc"
+                      contenteditable="true"
+                          ng-model-options="{ updateOn: 'default', debounce: 200 }"
+                          ng-model="imageListItemCtrl.Asset.Description">
+                </div>
+                    <div style="width:70px;height:50px;float:right"></div>
+                <div class="lib-row lib-header-seperator">
+                </div>
+
+                <div class="item-content-block tags">
+                    <div draggable='true'
+                         ng-repeat="chip in imageListItemCtrl.Asset.Tags"
+                         id='chip-{{chip.Id}}' class='tag' data-drag='true'>
+                        <span>{{chip.Name}}</span>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="lib-row lib-action" role="toolbar">      
+                <span ng-click="imageListItemCtrl.Delete()" class="lib-delete fa fa-trash fa-2x"></span>
+                <span ng-click="imageListItemCtrl.View()" class="lib-expand fa fa-expand fa-2x"></span>
+                <span uib-popover-template="imageListItemCtrl.popoverTemplate" class="lib-share fa fa-share-alt fa-2x"></span>
+
+                <script type="text/ng-template" id="sharePopoverTemplate.html">
+                    <div class="form-group">
+                        <input type="text" readonly width="100" ng-value="imageListItemCtrl.Asset.SourceUrl" class="form-control">
+                    </div>
+                </script>
             </div>
         </div>
     </div>

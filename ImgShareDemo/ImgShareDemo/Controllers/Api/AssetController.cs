@@ -1,5 +1,6 @@
 ﻿namespace ImgShareDemo.Controllers.Api
 {
+    using Attributes;
     using BO.DataTransfer;
     using ImgShareDemo.BLL;
     using ImgShareDemo.Controllers.Base;
@@ -11,25 +12,11 @@
     using System.Web.Http;
 
     [Authorize]
+    [ApiException]
     public class AssetController : BaseApiController
     {
         private AssetService _assetService;
 
-        private int UserId
-        {
-            get
-            {
-                int? userId = User.Identity.GetUserId();
-                if (userId.HasValue)
-                {
-                    return userId.Value;
-                }
-                else
-                {
-                    throw new InvalidOperationException("User context is not set. Unable to get user ID.");
-                }
-            }
-        }
         public AssetController()
         {
             _assetService = new AssetService();
@@ -90,6 +77,13 @@
         public async Task Delete(int id)
         {
             await _assetService.DeleteAssetImage(id, UserId);
+        }
+
+        [Route("api/Asset/Tag/{id}")]
+        [HttpPost]
+        public async Task Tag([FromUri] int id, [FromBody] TagDto tag)
+        {
+            await _assetService.AddTagToAsset(UserId, id, tag.Id);
         }
 
         [Route("api/Asset/Upload/{id}")]

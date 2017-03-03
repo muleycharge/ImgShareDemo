@@ -6,7 +6,6 @@
         .factory("ISD.Services.AssetService", Service)
         .value("AppConstants", AppConstants);
 
-    console.log(AppConstants);
     Service.$inject = ["$http", "$log", "$q", "$resource", "AppConstants", "Upload"];
 
     function Service($http, $log, $q, $resource, appConstants, upload) {
@@ -17,14 +16,16 @@
             CreateAsset: _createAsset,
             DeleteAsset: _deleteAsset,
             UpdateAsset: _updateAsset,
-            UploadAsset: _uploadToAsset
+            UploadAsset: _uploadToAsset,
+            AddAssetTag: _addAssetTag,
         };
 
         var assetResource = $resource("/api/Asset/:assetId",
             { assetId: "@id" },
             {
                 "update": { method: "PUT" },
-                "upload": { method: "POST", url: "/api/Asset/Upload" }
+                "upload": { method: "POST", url: "/api/Asset/Upload" },
+                "addtag": {method: "POST", url: "/api/Asset/Tag/:id"}
             });
 
         return service;
@@ -67,6 +68,12 @@
             }).then(deferred.resolve, deferred.reject, progress);
 
             return deferred.promise;
+        }
+
+        function _addAssetTag(assetId, tag)
+        {
+            var promise = assetResource.addtag({ id: assetId }, tag).$promise;
+            return promise;
         }
     }
 })();

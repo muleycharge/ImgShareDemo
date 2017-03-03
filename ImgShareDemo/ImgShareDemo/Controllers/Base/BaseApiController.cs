@@ -1,5 +1,6 @@
 ﻿namespace ImgShareDemo.Controllers.Base
 {
+    using BLL;
     using BLL.Exceptions;
     using System;
     using System.Collections.Generic;
@@ -14,5 +15,20 @@
 
     public class BaseApiController : ApiController
     {
+        protected int UserId
+        {
+            get
+            {
+                int? userId = User.Identity.GetUserId();
+                if (userId.HasValue)
+                {
+                    return userId.Value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("User context is not set. Unable to get user ID.");
+                }
+            }
+        }
     }
 }

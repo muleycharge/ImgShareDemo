@@ -1,5 +1,6 @@
 ﻿namespace ImgShareDemo.BO.Entities
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,5 +25,7 @@
         public string SourceUrl { get; set; }
 
         public virtual User User { get; set; }
+
+        public virtual ICollection<AssetTag> AssetTags { get; set; }
     }
 }

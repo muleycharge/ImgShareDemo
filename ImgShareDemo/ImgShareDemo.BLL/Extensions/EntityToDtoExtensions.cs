@@ -2,11 +2,8 @@
 {
     using BO.DataTransfer;
     using BO.Entities;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class EntityToDtoExtensions
     {
@@ -20,6 +17,16 @@
                 Description = asset.Description,
                 SourceUrl = asset.SourceUrl,
                 UserId = asset.UserId,
+                Tags = asset.AssetTags?.Select(at => at.Tag.ToTagDto()) ?? new List<TagDto>()
+            };
+        }
+
+        public static TagDto ToTagDto(this Tag tag)
+        {
+            return new TagDto
+            {
+                Id = tag.Id,
+                Name = tag.TagValue
             };
         }
         #endregion

@@ -188,12 +188,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\LinkedInAuth.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\ApiExceptionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AssetController.cs" />
+    <Compile Include="Controllers\Api\TagController.cs" />
     <Compile Include="Controllers\Base\BaseApiController.cs" />
     <Compile Include="Controllers\Base\BaseMvcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\default.png" />
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
@@ -233,8 +235,13 @@
     <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageList.directive.html" />
     <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageList.directive.js" />
     <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageListItem.directive.html" />
+    <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageListItem.modal.html" />
     <Content Include="Scripts.AngularJs\Shared\Asset.service.js" />
+    <Content Include="Scripts.AngularJs\Shared\ChipDrop.directive.js" />
+    <Content Include="Scripts.AngularJs\Shared\ChipListing.directive.html" />
+    <Content Include="Scripts.AngularJs\Shared\ChipListing.directive.js" />
     <Content Include="Scripts.AngularJs\Shared\ContentEditable.directive.js" />
+    <Content Include="Scripts.AngularJs\Shared\Tag.service.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -342,6 +349,7 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content.less\Bootstrap.less" />
+    <Content Include="Content.less\Components\Tags.less" />
     <None Include="Properties\PublishProfiles\ImgShareDemo - Web Deploy.pubxml" />
     <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageListItem.directive.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />

@@ -29,10 +29,13 @@ namespace ImgShareDemo
                 "~/Scripts/ng-file-upload.js",
                 "~/Scripts.AngularJs/Home/app.js",
                 "~/Scripts.AngularJs/Shared/ContentEditable.directive.js",
+                "~/Scripts.AngularJs/Shared/ChipListing.directive.js",
+                "~/Scripts.AngularJs/Shared/ChipDrop.directive.js",
                 "~/Scripts.AngularJs/Home/ImageLibrary/ImageCard.directive.js",
                 "~/Scripts.AngularJs/Home/ImageLibrary/ImageLibrary.controller.js",
                 "~/Scripts.AngularJs/Home/ImageLibrary/ImageList.directive.js",
                 "~/Scripts.AngularJs/Home/ImageLibrary/ImageListItem.directive.js",
+                "~/Scripts.AngularJs/Shared/Tag.service.js",
                 "~/Scripts.AngularJs/Shared/Asset.service.js"
             ));
 

@@ -1,12 +1,11 @@
-﻿@import (once) "../Bootstrap.less";
-
-.lib-panel {
-    margin: 20Px 20px 0 20px;
-
-    img {
+﻿
+.lib-img-show{
         width: 100%;
         background-color: transparent;
-    }
+}
+.lib-panel {
+    margin: 20Px 20px 20px 20px;
+    min-height:300px;
     .row,
     .col-md-6 {
         padding: 0;
@@ -25,44 +24,48 @@
             background-color: #FFFFFF;
             font-size: 20px;
             padding: 10px 20px 0 20px;
+            z-index:2;
         }
 
-        &.lib-header .lib-header-seperator {
+        &.lib-header-seperator {
             height: 2px;
-            width: 26px;
+            width: 80%;
             background-color: #d9d9d9;
-            margin: 7px 0 7px 0;
+            margin: 7px 10% 7px 10%;
+            position:relative;
+            z-index:1;
         }
+
+
 
         &.lib-desc {
-            position: relative;
-            height: 100%;
+            min-height:2em;
+            min-width:100%
             display: block;
             font-size: 13px;
+            z-index:2;
         }
-        &.lib-desc a{
-            position: absolute;
-            width: 100%;
-            bottom: 10px;
-            left: 20px;
-        }
-        &.lib-action{
-            height:60px;
-            position:absolute;
-            bottom:0px;
-            left:0px
-            width:100%;
-
-            .lib-share{
-                &:hover {
-                    color: #999999;
-                }
+    }
+    .lib-action{
+        padding:10px;
+        height:50px;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        .fa{
+            color: @icon-subdued-color;
+            &:hover {
+                color: @icon-subdued-color-highlight;
             }
+        }
+        .lib-share{
+        }
 
-            .lib-delete{
-                &:hover {
-                    color: @brand-danger;
-                }
+        .lib-delete{
+            margin-right:20px;
+            color: @icon-subdued-color;
+            &:hover {
+                color: @brand-danger;
             }
         }
     }

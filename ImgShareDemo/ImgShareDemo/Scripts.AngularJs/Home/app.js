@@ -15,9 +15,9 @@
 
 
 
-    Interceptor.$inject = ["$q"];
+    Interceptor.$inject = ["$q", "$window"];
 
-    function Interceptor($q) {
+    function Interceptor($q, $window) {
         return {
             request: _request,
             requestError: _requestError,

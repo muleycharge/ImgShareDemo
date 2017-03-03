@@ -69,7 +69,7 @@
         public async Task<ActionResult> Login(string returnUrl)
         {
             string state = Guid.NewGuid().ToString("N");
-            _stateCache.Value.Add(new CacheItem(state, returnUrl), 
+            _stateCache.Value.Add(new CacheItem(state, returnUrl ?? "/"), 
                 new CacheItemPolicy
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(10)

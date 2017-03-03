@@ -2,6 +2,7 @@
 {
     using BO.DataTransfer;
     using BO.Entities;
+    using Exceptions;
     using Extensions;
     using ImgShareDemo.DAL;
     using System;
@@ -39,7 +40,7 @@
         #region Public Methods
         public async Task<PagedResponse<AssetDto>> GetUserAssets(int userId, string search = null, int take = 100, int offset = 0)
         {
-            IEnumerable<Asset> assets = (await _uow.AssetRepository.GetUserAssets(userId, search, take, offset).ConfigureAwait(false));
+            IEnumerable<Asset> assets = (await _uow.AssetRepository.GetUserAssets(userId, search, take, offset, AssetDto.RequiredIncludes).ConfigureAwait(false));
             bool last = assets.Count() < take;
 
             PagedResponse<AssetDto> response = new PagedResponse<AssetDto>
@@ -53,10 +54,10 @@
 
         public async Task<AssetDto> GetUserAsset(int userId, int assetId)
         {
-            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, "User").ConfigureAwait(false);
+            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, AssetDto.RequiredIncludes).ConfigureAwait(false);
             if (asset == null || asset.User.Id != userId)
             {
-                throw new InvalidOperationException($"Invalid Asset ID. Asset ID {assetId} not found.");
+                throw new ServiceLevelException($"Unable to find asset.");
             }
 
             return asset.ToAssetDto();
@@ -67,10 +68,10 @@
             Asset toUpdate;
             if (asset.Id.HasValue)
             {
-                toUpdate = await _uow.AssetRepository.GetByIdAsync(asset.Id.Value).ConfigureAwait(false);
+                toUpdate = await _uow.AssetRepository.GetByIdAsync(asset.Id.Value, AssetDto.RequiredIncludes).ConfigureAwait(false);
                 if (asset == null || toUpdate.User.Id != userId)
                 {
-                    throw new InvalidOperationException($"Invalid Asset ID. Asset ID {asset.Id} not found.");
+                    throw new ServiceLevelException($"Unable to find asset.");
                 }
             }
             else
@@ -91,13 +92,17 @@
 
         public async Task<AssetDto> UpdateAssetImage(Stream stream, int userId, int assetId, string contentType)
         {
-            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, "User").ConfigureAwait(false);
+            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, AssetDto.RequiredIncludes).ConfigureAwait(false);
             if (asset == null || asset.User.Id != userId)
             {
-                throw new InvalidOperationException($"Invalid Asset ID. Asset ID {assetId} not found.");
+                throw new ServiceLevelException($"Unable to find asset.");
             }
 
             Uri uri = await _imageStorage.AddUpdateBlobFile(stream, userId, assetId, contentType).ConfigureAwait(false);
+            if(_imageStorage.IsAssetsBlobStorageUrl(asset.SourceUrl, asset.UserId, asset.Id))
+            {
+                await _imageStorage.DeleteBlobByUrl(asset.SourceUrl).ConfigureAwait(false);
+            }
 
             asset.SourceUrl = uri.AbsoluteUri;
             await _uow.AssetRepository.UpdateAsync(asset).ConfigureAwait(false);
@@ -108,10 +113,10 @@
 
         public async Task DeleteAssetImage(int assetId, int userId)
         {
-            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, "User").ConfigureAwait(false);
-            if (asset == null || asset.User.Id != userId)
+            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId).ConfigureAwait(false);
+            if (asset == null || asset.UserId != userId)
             {
-                throw new InvalidOperationException($"Invalid Asset ID. Asset ID {assetId} not found.");
+                throw new ServiceLevelException($"Unable to find asset.");
             }
 
             await _uow.AssetRepository.DeleteAsync(assetId).ConfigureAwait(false);
@@ -120,6 +125,32 @@
             {
                 await _imageStorage.DeleteBlobByUrl(asset.SourceUrl).ConfigureAwait(false);
             }
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task AddTagToAsset(int userId, int assetId, int tagId)
+        {
+            Tag tag = await _uow.TagRepository.GetByIdAsync(tagId).ConfigureAwait(false);
+            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, "AssetTags").ConfigureAwait(false);
+
+            if (tag == null || tag.UserId != userId)
+            {
+                throw new ServiceLevelException($"Unable to add tag to asset, tag not found.");
+            }
+            if (asset == null || asset.UserId != userId)
+            {
+                throw new ServiceLevelException($"Unable to add tag to asset, asset not found.");
+            }
+            if(asset.AssetTags.Any(at => at.TGT_Id == tag.Id))
+            {
+                throw new ServiceLevelException($"Unable to add tag to asset, tag is already assigned to asset.");
+            }
+
+            asset.AssetTags.Add(new AssetTag
+            {
+                ASA_Id = assetId,
+                TGT_Id = tagId
+            });
             await _uow.SaveChangesAsync();
         }
 

@@ -54,6 +54,7 @@
     <Compile Include="DataTransfer\IncomingApiDataResponse.cs" />
     <Compile Include="DataTransfer\AssetDto.cs" />
     <Compile Include="DataTransfer\PagedResponse.cs" />
+    <Compile Include="DataTransfer\TagDto.cs" />
     <Compile Include="LinkedInResponse\LinkedInErrorResponse.cs" />
     <Compile Include="LinkedInResponse\LinkedInPersonResponse.cs" />
     <Compile Include="LinkedInResponse\LinkedInTokenResponse.cs" />

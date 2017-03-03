@@ -11,43 +11,23 @@
 
     public class MockUnitOfWork : IUnitOfWork
     {
-        private Dictionary<int, Asset> _assetDb;
-        private Dictionary<int, Tag> _tagDb;
-        private Dictionary<int, LinkedInUser> _linkedInUserDb;
-        private Dictionary<int, User> _user;
-
-        User _testUser = new User
-        {
-            FirstName = "Test",
-            LastName = "Test",
-            Email = "test@test.test",
-            ImageUrl = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y",
-            Username = "test",
-            DateCreated = DateTime.Now,
-        };
-
-        public User TestUser
-        {
-            get
-            {
-                return _testUser;
-            }
-        }
-
+        public Dictionary<int, Asset> AssetDb { get; protected set; } = new Dictionary<int, Asset>();
+        public Dictionary<int, Tag> TagDb { get; protected set; } = new Dictionary<int, Tag>();
+        public Dictionary<int, LinkedInUser> LinkedInUserDb { get; protected set; } = new Dictionary<int, LinkedInUser>();
+        public Dictionary<int, User> UserDb { get; protected set; } = new Dictionary<int, User>();
+        
         public MockUnitOfWork()
         {
-            _assetDb = new Dictionary<int, Asset>();
-            _tagDb = new Dictionary<int, Tag>();
-            _linkedInUserDb = new Dictionary<int, LinkedInUser>();
-            _user = new Dictionary<int, User>();
-            // Initialize test user.
-            UserRepository.Insert(_testUser);
+            AssetDb = new Dictionary<int, Asset>();
+            TagDb = new Dictionary<int, Tag>();
+            LinkedInUserDb = new Dictionary<int, LinkedInUser>();
+            UserDb = new Dictionary<int, User>();
         }
         public IAssetRepository AssetRepository
         {
             get
             {
-                return new MockAssetRepository(_assetDb);
+                return new MockAssetRepository(AssetDb);
             }
         }
 
@@ -55,7 +35,7 @@
         {
             get
             {
-                return new MockLinkedInUserRepository(_linkedInUserDb);
+                return new MockLinkedInUserRepository(LinkedInUserDb);
             }
         }
 
@@ -63,7 +43,7 @@
         {
             get
             {
-                return new MockTagRepository(_tagDb);
+                return new MockTagRepository(TagDb);
             }
         }
 
@@ -71,7 +51,7 @@
         {
             get
             {
-                return new MockUserRepository(_user);
+                return new MockUserRepository(UserDb);
             }
         }
 

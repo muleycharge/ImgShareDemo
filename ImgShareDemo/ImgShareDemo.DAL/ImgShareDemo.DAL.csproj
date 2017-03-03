@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201702270011553_InitialImageLibraryTables.Designer.cs">
       <DependentUpon>201702270011553_InitialImageLibraryTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703030407424_TagIndex.cs" />
+    <Compile Include="Migrations\201703030407424_TagIndex.Designer.cs">
+      <DependentUpon>201703030407424_TagIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Concrete\AssetRepository.cs" />
@@ -125,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702270011553_InitialImageLibraryTables.resx">
       <DependentUpon>201702270011553_InitialImageLibraryTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703030407424_TagIndex.resx">
+      <DependentUpon>201703030407424_TagIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

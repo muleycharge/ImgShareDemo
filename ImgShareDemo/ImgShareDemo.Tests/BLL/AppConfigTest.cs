@@ -2,7 +2,11 @@
 {
     using ImgShareDemo.BLL.Static;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    /// <summary>
+    /// Not only test the AppConfig class but also make sure
+    /// that this test library has access to all the needed
+    /// constants to work properly
+    /// </summary>
     [TestClass]
     public class AppConfigTest
     {

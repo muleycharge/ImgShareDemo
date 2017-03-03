@@ -7,7 +7,23 @@
 }
 
 <div ng-app="ISD.App" class="body-content">
-    <div ng-controller="ISD.Controllers.ImageLibrary as imageLibraryCtrl">
-        <div image-list assets="imageLibraryCtrl.Assets"></div>
+    <div ng-controller="ISD.Controllers.ImageLibrary as imageLibraryCtrl" class="row">
+        <div class="col-sm-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Image Library Tags
+                </div>
+                <div class="panel-body">
+                    <chip-listing placeholder="Search Tags"
+                                  get-chips="imageLibraryCtrl.getTags"
+                                  add-chip="imageLibraryCtrl.addTag"
+                                  delete-chip="imageLibraryCtrl.deleteTag"
+                                  drag-context-id="user-entitlements"
+                                  currently-dragging-chip="imageLibraryCtrl.draggedTag">
+                    </chip-listing>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10" image-list dragged-tag="imageLibraryCtrl.draggedTag" assets="imageLibraryCtrl.Assets"></div>
     </div>
 </div>

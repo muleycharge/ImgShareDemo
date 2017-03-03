@@ -13,6 +13,11 @@
 
     public class ImageDemoStorageContext : IImageDemoStorageContext
     {
+        #region Constants
+        private const int _fileNameRandomSuffixLength = 7;
+        private const string _possibleRandomChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        #endregion
+
         #region Fields
         private string _containerName;
         private string _storageConnectionString;
@@ -86,7 +91,7 @@
         {
             return !String.IsNullOrEmpty(blobUrl)
                 && blobUrl.StartsWith(ImageBlobStorageBaseUrL())
-                && Regex.IsMatch(blobUrl, $@"{userId}/\d+.\w+$");
+                && Regex.IsMatch(blobUrl, $@"{userId}/\d+_\w{{{_fileNameRandomSuffixLength}}}.\w+$");
         }
         #endregion
 
@@ -138,7 +143,9 @@
 
         private string GetImageFileName(int userId, int assetId, string mimeType)
         {
-            return $"{userId}/{assetId}{GetExtensionFromMimeType(mimeType)}";
+            Random random = new Random();
+            string randomSuffix = new string(Enumerable.Repeat(_possibleRandomChars, _fileNameRandomSuffixLength).Select(s => s[random.Next(s.Length)]).ToArray());
+            return $"{userId}/{assetId}_{randomSuffix}{GetExtensionFromMimeType(mimeType)}";
         }
 
         private string GetExtensionFromMimeType(string mimeType)
