@@ -25,7 +25,7 @@
                 {
                     if(newVal)
                     {
-                        var chips = getChips();
+                        var chips = getChips() || [];
                         scope.canDrop = !chips.some(function (chip) { return chip.Id === newVal.Id; });
                         element.addClass("drop-box");
                     }
