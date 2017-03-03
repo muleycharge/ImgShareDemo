@@ -63,13 +63,17 @@
 
         // PUT: api/Asset/5
         [HttpPut]
-        public async Task Put([FromBody]AssetDto value)
+        public async Task<ApiResponse<AssetDto>> Put([FromBody]AssetDto value)
         {
             if (!value.Id.HasValue)
             {
                 throw new InvalidOperationException("Asset Id is null");
             }
-            await _assetService.AddUpdateAsset(UserId, value).ConfigureAwait(false);
+            AssetDto asset = await _assetService.AddUpdateAsset(UserId, value).ConfigureAwait(false);
+            return new ApiResponse<AssetDto>
+            {
+                Data = asset
+            };
         }
 
         // DELETE: api/Asset/5

@@ -49,12 +49,12 @@
 
 			$scope.$watch("imageListItemCtrl.Asset.Name", function (newVal, oldVal) {
 				if (newVal !== oldVal) {
-					vm.imageList.Update(vm.Asset);
+				    _update();
 				}
 			});
 			$scope.$watch("imageListItemCtrl.Asset.Description", function (newVal, oldVal) {
 				if (newVal !== oldVal) {
-					vm.imageList.Update(vm.Asset);
+				    _update();
 				}
 			});
 

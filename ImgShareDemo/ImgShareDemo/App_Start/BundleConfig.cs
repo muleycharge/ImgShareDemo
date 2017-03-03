@@ -10,7 +10,7 @@ namespace ImgShareDemo
         {
 
             bundles.Add(new Bundle("~/bundles/base").Include(
-                "~/Scripts/jQuery-*",
+                "~/Scripts/jQuery-{version}.js",
                 "~/Scripts/modernizr-*",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/angular.js",
