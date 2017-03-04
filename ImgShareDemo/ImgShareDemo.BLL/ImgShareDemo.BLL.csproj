@@ -30,7 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,12 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetService.cs" />
+    <Compile Include="Exceptions\LinkedInApiResponseException.cs" />
+    <Compile Include="Exceptions\ServiceLevelException.cs" />
+    <Compile Include="Extensions\EntityToDtoExtensions.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="LinkedInApiService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static\AppConfig.cs" />
+    <Compile Include="Static\AppConstants.cs" />
+    <Compile Include="TagService.cs" />
+    <Compile Include="UserService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ImgShareDemo.BO\ImgShareDemo.BO.csproj">
       <Project>{1f36c5c7-f114-4808-be97-3cb869ec231f}</Project>
@@ -55,6 +68,10 @@
       <Project>{bfcfec56-d72a-45ea-beb7-78f27f659145}</Project>
       <Name>ImgShareDemo.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

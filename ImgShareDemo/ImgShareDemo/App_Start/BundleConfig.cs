@@ -8,24 +8,41 @@ namespace ImgShareDemo
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+            bundles.Add(new Bundle("~/bundles/base").Include(
+                "~/Scripts/jQuery-{version}.js",
+                "~/Scripts/modernizr-*",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-resource.js",
+                "~/Scripts/angular-route.js",
+                "~/Scripts/angular-sanitize.js",
+                "~/Scripts/angular-animate.js",
+                "~/Scripts/ng-file-upload.min.js",
+                "~/Scripts/angular-ui/ui-bootstrap.js",
+                "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                "~/Scripts/lodash.core.min.js",
+                "~/Scripts/lodash.min.js"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+            bundles.Add(new Bundle("~/bundles/home/app").Include(
+                "~/Scripts/ng-file-upload.js",
+                "~/Scripts.AngularJs/Home/app.js",
+                "~/Scripts.AngularJs/Shared/ContentEditable.directive.js",
+                "~/Scripts.AngularJs/Shared/ChipListing.directive.js",
+                "~/Scripts.AngularJs/Shared/ChipDrop.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageCard.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageLibrary.controller.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageList.directive.js",
+                "~/Scripts.AngularJs/Home/ImageLibrary/ImageListItem.directive.js",
+                "~/Scripts.AngularJs/Shared/Tag.service.js",
+                "~/Scripts.AngularJs/Shared/Asset.service.js"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.min.css"));
         }
     }
 }

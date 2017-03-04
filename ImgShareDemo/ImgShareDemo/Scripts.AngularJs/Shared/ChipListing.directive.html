@@ -1,0 +1,26 @@
+﻿<div class="">
+    <div class="input-group">
+        <input type="text" class="form-control" ng-model="chipListCtrl.search" placeholder="{{chipListCtrl.placeholder}}" />
+        <span class="input-group-btn" id="addRemoveChip" ng-switch="chipListCtrl.getButtonState()">
+            <button ng-switch-when="loading" type="button" class="btn btn-default">
+                <span class="fa fa-spinner fa-spin"></span>
+            </button>
+            <button ng-switch-when="dragging" type="button" class="btn btn-default">
+                <span class="fa fa-trash text-danger"></span>
+            </button>
+            <button ng-switch-when="add-disabled" disabled="disabled" type="button" class="btn btn-default">
+                <span class="fa fa-plus text-muted"></span>
+            </button>
+            <button ng-switch-when="add-enabled" ng-click="chipListCtrl.addChip(chipListCtrl.search)" type="button" class="btn btn-default">
+                <span class="fa fa-plus text-success"></span>
+            </button>
+        </span>
+    </div>
+    <div class="item-content-block tags">
+        <chip-listing-chip class="chip"
+            ng-repeat="chip in chipListCtrl.chips | filter:chipListCtrl.chipFilter as filteredChips" 
+            chip="chip" 
+            drag-context-id="{{chipListCtrl.dragContextId}}">
+        </chip-listing-chip>
+    </div>
+</div>

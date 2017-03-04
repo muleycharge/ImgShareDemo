@@ -1,0 +1,72 @@
+﻿
+.lib-img-show{
+        width: 100%;
+        background-color: transparent;
+}
+.lib-panel {
+    margin: 20Px 20px 20px 20px;
+    min-height:300px;
+    .row,
+    .col-md-6 {
+        padding: 0;
+        background-color: #FFFFFF;
+        position:relative;
+        min-height: 100px;
+    }
+    .lib-text{
+        height:100%;
+    }
+
+    .lib-row {
+        padding: 0 20px 0 20px;
+
+        &.lib-header {
+            background-color: #FFFFFF;
+            font-size: 20px;
+            padding: 10px 20px 0 20px;
+            z-index:2;
+        }
+
+        &.lib-header-seperator {
+            height: 2px;
+            width: 80%;
+            background-color: #d9d9d9;
+            margin: 7px 10% 7px 10%;
+            position:relative;
+            z-index:1;
+        }
+
+
+
+        &.lib-desc {
+            min-height:2em;
+            min-width:100%
+            display: block;
+            font-size: 13px;
+            z-index:2;
+        }
+    }
+    .lib-action{
+        padding:10px;
+        height:50px;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        .fa{
+            color: @icon-subdued-color;
+            &:hover {
+                color: @icon-subdued-color-highlight;
+            }
+        }
+        .lib-share{
+        }
+
+        .lib-delete{
+            margin-right:20px;
+            color: @icon-subdued-color;
+            &:hover {
+                color: @brand-danger;
+            }
+        }
+    }
+}

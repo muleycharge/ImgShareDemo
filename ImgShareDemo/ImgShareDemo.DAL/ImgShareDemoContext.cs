@@ -1,19 +1,18 @@
-﻿using ImgShareDemo.BO.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ImgShareDemo.DAL
+﻿namespace ImgShareDemo.DAL
 {
+    using ImgShareDemo.BO.Entities;
+    using System.Data.Entity;
+    using System.Data.Entity.ModelConfiguration.Conventions;
+
     public class ImgShareDemoContext : DbContext
     {
-        public ImgShareDemoContext() : base("ImgShareDemoContext") { }
+        public ImgShareDemoContext() : base() { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<LinkedInUser> LinkedInUsers { get; set; }
+        public DbSet<Asset> Assets { get; set; }
+        public DbSet<AssetTag> AssetTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
