@@ -47,6 +47,7 @@
             vm.Search = _search;
             vm.AddImg = _addImage;
             vm.AddTag = _addTag;
+            vm.RemoveTag = _removeTag;
 
             _init();
 
@@ -65,7 +66,8 @@
                     Name: "",
                     Description: "",
                     SourceUrl: "",
-                    $vm_id: _newCount
+                    $vm_id: _newCount,
+                    Tags: []
                 });
                 _newCount++;
             }
@@ -104,6 +106,12 @@
             function _addTag(assetId, tag)
             {
                 var promise = assetService.AddAssetTag(assetId, tag);
+                return promise;
+            }
+
+            function _removeTag(assetId, tag)
+            {
+                var promise = assetService.RemoveAssetTag(assetId, tag);
                 return promise;
             }
 

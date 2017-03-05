@@ -110,9 +110,12 @@
                     new Claim(ClaimTypes.Name, $"{user.User.FirstName} {user.User.LastName}"),
                     new Claim(ClaimTypes.Email, user.User.Email),
                     new Claim(ClaimTypes.NameIdentifier, user.LinkedInId),
-                    new Claim(AppConstants.CustomClaims.UserImageUrl, user.ProfileImageUrl),
                     new Claim(AppConstants.CustomClaims.IsdUserId, user.Id.ToString())
-                };                
+                };               
+                if(!String.IsNullOrEmpty(user.ProfileImageUrl))
+                {
+                    claims.Add(new Claim(AppConstants.CustomClaims.UserImageUrl, user.ProfileImageUrl));
+                } 
                 ClaimsIdentity identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                 IOwinContext authContext = Request.GetOwinContext();
                 authContext.Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.UtcNow.AddSeconds(tokenResponse.Data.expires_in) }, identity);
@@ -131,14 +134,14 @@
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Logout", "Account");
         }
         [HttpGet]
         [ValidateAntiForgeryToken]
         public ActionResult SignOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Logout", "Account");
         }
 
         //
@@ -146,6 +149,16 @@
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

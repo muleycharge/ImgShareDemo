@@ -1,9 +1,30 @@
-﻿
+﻿@import (once) "../Bootstrap.less";
+
 .lib-img-show{
         width: 100%;
         background-color: transparent;
 }
 .lib-panel {
+    
+    .animate-if{
+    
+        &.ng-enter,
+        &.ng-leave{
+            transition: all 1s;
+        }
+    
+        &.ng-enter,
+        &.ng-leave.ng-leave-active {
+          opacity:0;
+          max-height:0;
+        }
+
+        &.ng-leave,
+        &.ng-enter.ng-enter-active {
+          opacity:1;
+          max-height:600px;
+        }
+    }
     margin: 20Px 20px 20px 20px;
     min-height:300px;
     .row,
@@ -15,6 +36,28 @@
     }
     .lib-text{
         height:100%;
+    }
+
+    .lib-error-container{
+        position:relative;
+        width:100%;
+        .lib-error{
+            padding-top:10px;
+            position: absolute;
+            background-color: @gray-lighter;
+            width:100%;
+            border-radius: 0 0 10px 10px;
+            background-color:@alert-danger-bg;
+            z-index:100;
+
+            ul{
+                list-style:none;
+                li{
+                    color: @alert-danger-text;
+                }
+            }
+
+        }
     }
 
     .lib-row {
@@ -40,11 +83,13 @@
 
         &.lib-desc {
             min-height:2em;
-            min-width:100%
+            min-width:100%;
             display: block;
             font-size: 13px;
             z-index:2;
         }
+
+
     }
     .lib-action{
         padding:10px;

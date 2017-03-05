@@ -1,10 +1,10 @@
-﻿<div class="col-md-5 no-padding lib-item" data-category="view">
+﻿<div class="col-md-5 no-padding lib-item" data-category="view" ng-form="imageListItemCtrl.form">
     <div class="lib-panel">
         <div class="row box-shadow" 
              chip-drop 
              chips="imageListItemCtrl.Asset.Tags"
              currently-dragged-chip="imageListItemCtrl.imageList.draggedTag"
-             chip-added="imageListItemCtrl.ChipAdded($chip)">
+             chip-added="imageListItemCtrl.TagAdded($chip)">
             <div name="imageFile" class="col-md-6 drop-box" role="button"
                  ng-model="imageListItemCtrl.imageFile"
                  ngf-select
@@ -14,10 +14,9 @@
                  ngf-multiple="false"
                  accept="image/*"
                  ngf-pattern="'image/*'"
-                 ng-required="!imageListItemCtrl.Asset.SourceUrl"
-                 ngf-max-size="10MB"
-                 ngf-max-height="2000"
-                 ngf-max-width="2000">
+                 ngf-max-size="{{imageListItemCtrl.maxFileSize}}"
+                 ngf-max-height="{{imageListItemCtrl.maxImageHeight}}"
+                 ngf-max-width="{{imageListItemCtrl.maxImageWidth}}">
                 <div ng-if="imageListItemCtrl.imageFile">
                     <img class="lib-img-show" ngf-src="imageListItemCtrl.imageFile">
                 </div>
@@ -49,7 +48,9 @@
                          ng-repeat="chip in imageListItemCtrl.Asset.Tags"
                          id='chip-{{chip.Id}}' class='tag' data-drag='true'>
                         <span>{{chip.Name}}</span>
+                        <span class="fa fa-remove text-danger" ng-click="imageListItemCtrl.RemoveTag(chip)" role="button"></span>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
 
 
@@ -66,6 +67,21 @@
                         <input type="text" readonly width="100" ng-value="imageListItemCtrl.Asset.SourceUrl" class="form-control">
                     </div>
                 </script>
+            </div>
+        </div>
+        <div class="lib-error-container">
+            <div class="lib-error animate-if" ng-if="imageListItemCtrl.form.$invalid && imageListItemCtrl.form.$dirty">
+                <ul>
+                    <li ng-if="imageListItemCtrl.form.imageFile.$error.maxSize">
+                        Image file size is too large. Must be less then {{imageListItemCtrl.maxFileSize}}.
+                    </li>
+                    <li ng-if="imageListItemCtrl.form.imageFile.$error.pattern">
+                        Invalid file type
+                    </li>
+                    <li ng-if="imageListItemCtrl.form.imageFile.$error.maxHeight || imageListItemCtrl.form.imageFile.$error.maxWidth">
+                        Image dimensions are too large. Must be less then {{imageListItemCtrl.maxImageWidth}}px x {{imageListItemCtrl.maxImageHeight}}px
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

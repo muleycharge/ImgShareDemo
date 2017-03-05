@@ -154,6 +154,23 @@
             await _uow.SaveChangesAsync();
         }
 
+        public async Task RemoveTagFromAsset(int userId, int assetId, int tagId)
+        {
+            Asset asset = await _uow.AssetRepository.GetByIdAsync(assetId, "AssetTags").ConfigureAwait(false);
+            if (asset == null || asset.UserId != userId)
+            {
+                throw new ServiceLevelException($"Unable to remove tag to asset, asset not found.");
+            }
+            AssetTag assetTag = asset.AssetTags.FirstOrDefault(at => at.TGT_Id == tagId);
+            if (assetTag == null)
+            {
+                throw new ServiceLevelException($"Unable to remove tag to asset, tag not found.");
+            }
+
+            _uow.AssetRepository.RemoveAssetTag(assetId, tagId);
+            await _uow.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         public void Dispose() => _uow.Dispose();
         #endregion
 

@@ -350,6 +350,7 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content.less\Bootstrap.less" />
     <Content Include="Content.less\Components\Tags.less" />
+    <None Include="Properties\PublishProfiles\ImgShareDemo - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ImgShareDemo - Web Deploy.pubxml" />
     <Content Include="Scripts.AngularJs\Home\ImageLibrary\ImageListItem.directive.js" />
     <None Include="Scripts\jquery-3.1.0-vsdoc.js" />
@@ -392,13 +393,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
