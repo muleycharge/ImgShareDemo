@@ -33,5 +33,11 @@
 
             return await query.ToListAsync().ConfigureAwait(false);
         }
+
+        public void RemoveAssetTag(int assetId, int tagId)
+        {
+            IQueryable<AssetTag> query = context.AssetTags.Where(at => at.ASA_Id == assetId && at.TGT_Id == tagId);
+            context.AssetTags.RemoveRange(query);
+        }
     }
 }

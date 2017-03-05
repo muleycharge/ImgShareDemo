@@ -3,6 +3,7 @@
     using ImgShareDemo.BLL.Static;
     using System;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Security.Claims;
     using System.Web.Helpers;
     using System.Web.Http;
@@ -14,18 +15,27 @@
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
-
-            string[] missingConfiguration;
-            if(!AppConfig.Validate(out missingConfiguration))
+            try
             {
-                throw new ConfigurationErrorsException($"The following configuration values are missing from application config file {String.Join(",", missingConfiguration)}.");
+                AreaRegistration.RegisterAllAreas();
+                GlobalConfiguration.Configure(WebApiConfig.Register);
+                FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+                RouteConfig.RegisterRoutes(RouteTable.Routes);
+                BundleConfig.RegisterBundles(BundleTable.Bundles);
+                AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+
+                string[] missingConfiguration;
+                if (!AppConfig.Validate(out missingConfiguration))
+                {
+                    throw new ConfigurationErrorsException($"The following configuration values are missing from application config file {String.Join(",", missingConfiguration)}.");
+                }
+
             }
+            catch(Exception ex)
+            {
+                Trace.TraceError(ex.Message, ex);
+            }
+            
         }
     }
 }

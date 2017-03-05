@@ -51,7 +51,7 @@
                 $log.info(data);
                 $log.info("candrop", scope.canDrop);
                 if (scope.canDrop && data) {
-                    var chips = getChips();
+                    var chips = getChips() || [];
                     if (!_.isArray(chips)) {
                         throw "chips parameter must be an array";
                     }

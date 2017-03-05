@@ -7,5 +7,7 @@
     public interface IAssetRepository : IGenericRepository<Asset>
     {
         Task<IEnumerable<Asset>> GetUserAssets(int userId, string search, int take, int offset, params string[] includes);
+
+        void RemoveAssetTag(int assetId, int tagId);
     }
 }

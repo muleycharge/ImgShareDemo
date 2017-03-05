@@ -18,6 +18,7 @@
             UpdateAsset: _updateAsset,
             UploadAsset: _uploadToAsset,
             AddAssetTag: _addAssetTag,
+            RemoveAssetTag : _removeAssetTag
         };
 
         var assetResource = $resource("/api/Asset/:assetId",
@@ -25,7 +26,8 @@
             {
                 "update": { method: "PUT" },
                 "upload": { method: "POST", url: "/api/Asset/Upload" },
-                "addtag": {method: "POST", url: "/api/Asset/Tag/:id"}
+                "addtag": { method: "POST", url: "/api/Asset/Tag/:id" },
+                "removetag": { method: "POST", url: "/api/Asset/RemoveTag/:id" }
             });
 
         return service;
@@ -39,8 +41,7 @@
             return assetResource.get({ id: id }).$promise;
         }
 
-        function _createAsset(asset)
-        {
+        function _createAsset(asset){
             asset.UserId = AppConstants.UserId;
             return assetResource.save({}, asset).$promise;
         }
@@ -49,14 +50,12 @@
             return assetResource.delete({ id: id }).$promise;
         }
 
-        function _updateAsset(asset)
-        {
+        function _updateAsset(asset){
             asset.UserId = AppConstants.UserId;
             return assetResource.update({}, asset).$promise;
         }
 
-        function _uploadToAsset(asset, file, progressCallback)
-        {
+        function _uploadToAsset(asset, file, progressCallback){
             var deferred = $q.defer();
             var progress = progressCallback || angular.noop;
             upload.http({
@@ -70,10 +69,15 @@
             return deferred.promise;
         }
 
-        function _addAssetTag(assetId, tag)
-        {
+        function _addAssetTag(assetId, tag){
             var promise = assetResource.addtag({ id: assetId }, tag).$promise;
             return promise;
+        }
+
+        function _removeAssetTag(assetId, tag) {
+            var promise = assetResource.removetag({ id: assetId }, tag).$promise;
+            return promise;
+
         }
     }
 })();

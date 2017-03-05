@@ -2,7 +2,7 @@
     "use strict";
     angular.module("ISD.Services", ["ngResource", "ngFileUpload"]);
     angular.module("ISD.Controllers", ["ngFileUpload"]);
-    angular.module("ISD.Directives", ["ui.bootstrap", "ngFileUpload", "ngSanitize"]);
+    angular.module("ISD.Directives", ["ui.bootstrap", "ngFileUpload", "ngSanitize", "ngAnimate"]);
 
     // Configure client side middle ware for all API requests
     angular.module("ISD.Services")
