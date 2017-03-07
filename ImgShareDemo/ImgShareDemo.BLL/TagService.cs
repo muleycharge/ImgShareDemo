@@ -54,7 +54,7 @@
             {
                 throw new ServiceLevelException("Unable to add tag,value for tag was not provided.");
             }
-            if(_uow.TagRepository.Get(t => t.TagValue == tagValue).Any())
+            if(_uow.TagRepository.Get(t => t.TagValue == tagValue && t.UserId == userId).Any())
             {
                 throw new ServiceLevelException($"Unable to add tag, tag value already exists for \"{tagValue}\".");
             }
